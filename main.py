@@ -74,7 +74,8 @@ def print_hi(name):
                  },
                  hide_index=True)
 
-    st.table(search_table[search_table['choice'] is True])
+    try:
+        st.table(search_table[search_table['choice'] is True])
 
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
