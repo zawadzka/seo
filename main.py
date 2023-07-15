@@ -32,12 +32,31 @@ def bq_base_query(bq_table_name: str = bq_table):
     return data
 
 
+def bq_search_query(bq_table_name: str = bq_table):
+    search_name = st.text_input("Find coupon page for: ", "CCleaner")
+    s = """
+    SELECT name,  full_content, sim_sum, content_length, pr, 
+    time, size, Number_of_Keywords 
+    FROM {} where url like '%/site/%'
+    and name like '%{}%'
+    limit 10
+    """
+    sql = s.format(bq_table_name, search_name)
+    data = client.query(sql).to_dataframe()
+    return data
+
+
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
 
     st.write(f'Hi {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-    data = bq_base_query()
-    st.dataframe(data)
+    example_table = bq_base_query()
+    st.dataframe(example_table)
+
+    st.write('Search for site')
+    search_table = bq_search_query()
+    st.table(search_table)
+
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
     # st.dataframe(data.head())
