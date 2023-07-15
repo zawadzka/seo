@@ -60,20 +60,20 @@ def print_hi(name):
                             'content length', 'Page rank', 'response time',
                             'file size', 'number of keywords']
 
-    st.data_editor(search_table,
-                   column_config={
-                       'content': st.column_config.TextColumn(
-                           width='large'),
-                       'name': st.column_config.SelectboxColumn(
+    st.dataframe(search_table,
+                 column_config={
+                     'content': st.column_config.TextColumn(
+                         width='large'),
+                     'name': st.column_config.SelectboxColumn(
 
-                           help='Select for analise',
-                           default=0)
+                         help='Select for analise',
+                         default=0)
 
-                   },
-                   disabled=['content', 'similarity to keyword set',
-                             'content length', 'Page rank', 'response time',
-                             'file size', 'number of keywords'],
-                   hide_index=True)
+                 },
+                 disabled=['content', 'similarity to keyword set',
+                           'content length', 'Page rank', 'response time',
+                           'file size', 'number of keywords'],
+                 hide_index=True)
     selected_row = search_table[search_table['name'] is True]
 
     # with open('/static/data_all.dataframe' , 'wb') as f:
