@@ -11,12 +11,14 @@ secrets = st.secrets["gcp_service_account"]
 # client = bigquery.Client(credentials=credentials)
 client = bigquery.Client(credentials=credentials, project=project_id)
 bq_table = 'seo-project-392909.seo_dataset.data'
-#bq_secrets = secrets, bq_client = client,
+
+
+# bq_secrets = secrets, bq_client = client,
 
 
 def bq_import(bq_table_name: str = bq_table):
     s = """
-         SELECT sim_sum
+         SELECT sim_sum, full_content
          FROM {} limit 10
      """
     sql = s.format(bq_table_name)
@@ -29,7 +31,8 @@ def print_hi(name):
 
     st.write(f'Hi {name}')  # Press Ctrl+F8 to toggle the breakpoint.
     data = bq_import()
-    st.table(data)
+    st.dataframe(data)
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
