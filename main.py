@@ -16,7 +16,7 @@ bq_table = 'seo-project-392909.seo_dataset.data'
 
 def bq_import(bq_table_name: str = bq_table):
     s = """
-         SELECT time, sim_sum, text, size
+         SELECT sim_sum
          FROM {} limit 10
      """
     sql = s.format(bq_table_name)
