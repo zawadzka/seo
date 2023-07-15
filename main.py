@@ -54,7 +54,7 @@ def print_hi(name):
     st.dataframe(example_table)
 
     st.write('Search for site')
-    ch = st.checkbox('Do you want to perform a query?')
+    ch = st.checkbox('Do you want to perform a query?', False)
     if ch:
         search_table = bq_search_query()
         search_table['choice'] = pd.Series()  # [0 for _ in range(len(search_table.index))])
@@ -70,7 +70,7 @@ def print_hi(name):
         search_table.to_csv('static/search_table.csv')
     else:
         search_table = pd.read_csv('static/search_table.csv')
-    st.dataframe(search_table)
+    # st.dataframe(search_table)
     edited_df = st.data_editor(search_table,
                                column_config={
                                    'content': st.column_config.TextColumn(
@@ -87,6 +87,9 @@ def print_hi(name):
                                hide_index=True)
 
     try:
+        new_content = st.data_editor(search_table.loc[0, 'content'])
+        new_pr = st.data_editor(search_table.loc[0, 'page_rank'], st.slider('page rank', 0, 1))
+
         st.table(edited_df[edited_df['choice'] == 1])
     except KeyError:
         st.write('Select one row')
