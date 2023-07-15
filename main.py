@@ -1,7 +1,11 @@
+import os.path
+
 import streamlit as st
 import pandas as pd
 from google.cloud import bigquery
 from google.oauth2 import service_account
+import pickle
+
 
 credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"])
 # secrets = toml.load('secrets.toml')["gcp_service_account"]
@@ -18,8 +22,8 @@ bq_table = 'seo-project-392909.seo_dataset.data'
 
 def bq_import(bq_table_name: str = bq_table):
     s = """
-         SELECT sim_sum, full_content
-         FROM {} limit 10
+         SELECT sim_sum, full_content, n_keywords
+         FROM {} where n_keywords<20 limit 10
      """
     sql = s.format(bq_table_name)
     data = client.query(sql).to_dataframe()
@@ -32,6 +36,10 @@ def print_hi(name):
     st.write(f'Hi {name}')  # Press Ctrl+F8 to toggle the breakpoint.
     data = bq_import()
     st.dataframe(data)
+    # with open('/static/data_all.dataframe' , 'wb') as f:
+    #     data_from_pickle = pickle.load(f)
+    # st.dataframe(data.head())
+    # st.dataframe(data_from_pickle)
 
 
 # Press the green button in the gutter to run the script.
