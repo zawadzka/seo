@@ -55,7 +55,7 @@ def print_hi(name):
 
     st.write('Search for site')
     search_table = bq_search_query()
-    search_table['choice'] = [lambda x: False for x in range(len(search_table))]
+    search_table['choice'] = pd.Series([False for x in range(len(search_table.index))])
     search_table.columns = ['choice', 'name', 'content', 'similarity to keyword set',
                             'content length', 'Page rank', 'response time',
                             'file size', 'number of keywords']
