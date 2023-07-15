@@ -86,7 +86,7 @@ def print_hi(name):
     # st.dataframe(edited_df)
     try:
         new_content = st.text_input(search_table.loc[0, 'content'])
-        new_pr = st.slider('page rank', 0, 1, value=search_table.loc[0, 'page_rank'])
+        new_pr = st.slider('page rank', 0, 1, 0)
 
         st.table(edited_df[edited_df['choice'] == 1])
     except KeyError:
