@@ -64,9 +64,10 @@ def print_hi(name):
                    column_config={
                        'content': st.column_config.TextColumn(
                            width='large'),
-                       'name': st.column_config.SelectboxColumn('Analyze?',
-                                                                help='Select for analise',
-                                                                default=0)
+                       'name': st.column_config.SelectboxColumn(
+
+                           help='Select for analise',
+                           default=0)
 
                    },
                    disabled=['content', 'similarity to keyword set',
