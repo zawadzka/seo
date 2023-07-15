@@ -70,7 +70,7 @@ def print_hi(name):
         search_table.to_csv('static/search_table.csv')
     else:
         search_table = pd.read_csv('static/search_table.csv')
-    st.dataframe(search_table)
+    # st.dataframe(search_table)
     edited_df = st.data_editor(search_table,
                                column_config={
                                    'content': st.column_config.TextColumn(
@@ -89,7 +89,7 @@ def print_hi(name):
         new_content = st.text_area('new content', edited_df.loc[0, 'content'])
         new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
 
-        st.table(edited_df[edited_df['choice'] == 1])
+        # st.table(edited_df[edited_df['choice'] == 1])
     except KeyError:
         st.write('Select one row')
 
