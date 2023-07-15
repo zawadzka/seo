@@ -64,7 +64,8 @@ def print_hi(name):
                   'content': st.column_config.TextColumn(
                       width='large'
                   )
-                 })
+                 },
+                 hide_index=True)
 
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
