@@ -57,10 +57,12 @@ def print_hi(name):
     search_table = bq_search_query()
     search_table['choice'] = pd.Series([0 for x in range(len(search_table.index))])
     search_table = search_table.rename(columns={'sim_sum': 'similarity_keywords',
+                                                'full_content': 'content',
                                                 'pr': 'page_rank', 'time': 'response_time',
                                                 'size': 'file_size'})
     search_table = search_table[['choice', 'name', 'content', 'similarity_keywords',
-                                'page_rank', 'file_size', 'content_length', 'response_time']]
+                                'page_rank', 'file_size', 'content_length', 'response_time',
+                                 'Number_of_Keywords']]
     st.dataframe(search_table,
                  column_config={
                      'content': st.column_config.TextColumn(
