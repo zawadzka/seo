@@ -55,8 +55,8 @@ def print_hi(name):
 
     st.write('Search for site')
     search_table = bq_search_query()
-    search_table['choice'] = 0  # [lambda x: False for x in range(len(search_table))]
-    search_table.columns = ['choice', 'name', 'content', 'similarity to keyword set',
+    # search_table['choice'] = 0  # [lambda x: False for x in range(len(search_table))]
+    search_table.columns = ['name', 'content', 'similarity to keyword set',
                             'content length', 'Page rank', 'response time',
                             'file size', 'number of keywords']
 
@@ -64,12 +64,12 @@ def print_hi(name):
                    column_config={
                        'content': st.column_config.TextColumn(
                            width='large'),
-                       'choice': st.column_config.SelectboxColumn('Analyze?',
-                                                                  help='Select for analise',
-                                                                  default=0)
+                       'name': st.column_config.SelectboxColumn('Analyze?',
+                                                                help='Select for analise',
+                                                                default=0)
 
                    },
-                   disabled=['name', 'content', 'similarity to keyword set',
+                   disabled=['content', 'similarity to keyword set',
                              'content length', 'Page rank', 'response time',
                              'file size', 'number of keywords'],
                    hide_index=True)
