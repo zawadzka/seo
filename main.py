@@ -59,8 +59,8 @@ def print_hi(name):
     search_table = search_table.rename(columns={'sim_sum': 'similarity_keywords',
                                                 'pr': 'page_rank', 'time': 'response_time',
                                                 'size': 'file_size'})
-    search_table = search_table['choice', 'name', 'content', 'similarity_keywords',
-                                'page_rank', 'file_size', 'content_length', 'response_time']
+    search_table = search_table[['choice', 'name', 'content', 'similarity_keywords',
+                                'page_rank', 'file_size', 'content_length', 'response_time']]
     st.dataframe(search_table,
                  column_config={
                      'content': st.column_config.TextColumn(
