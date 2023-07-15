@@ -55,7 +55,8 @@ def print_hi(name):
 
     st.write('Search for site')
     search_table = bq_search_query()
-    search_table['choice'] = pd.Series([0 for x in range(len(search_table.index))])
+    search_table['choice'] = pd.Series([0 for _ in range(len(search_table.index))])
+    search_table.loc[0,'choice'] = 1
     search_table = search_table.rename(columns={'sim_sum': 'similarity_keywords',
                                                 'full_content': 'content',
                                                 'pr': 'page_rank', 'time': 'response_time',
@@ -76,6 +77,8 @@ def print_hi(name):
 
     try:
         st.table(search_table[search_table['choice'] is True])
+    except KeyError:
+        st.write('Select one row')
 
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
