@@ -70,9 +70,6 @@ def print_hi(name):
                          default=0)
 
                  },
-                 disabled=['content', 'similarity to keyword set',
-                           'content length', 'Page rank', 'response time',
-                           'file size', 'number of keywords'],
                  hide_index=True)
     # selected_row = search_table[search_table['name'] is True]
 
