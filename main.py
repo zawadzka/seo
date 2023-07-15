@@ -56,23 +56,23 @@ def print_hi(name):
     st.write('Search for site')
     search_table = bq_search_query()
     search_table['choice'] = pd.Series([0 for x in range(len(search_table.index))])
-    # search_table.rename(columns = ['choice', 'name', 'content', 'similarity to keyword set',
-    #                         'content length', 'Page rank', 'response time',
-    #                         'file size', 'number of keywords'])
-
+    search_table = search_table.rename(columns={'sim_sum': 'similarity_keywords',
+                                                'pr': 'page_rank', 'time': 'response_time',
+                                                'size': 'file_size'})
+    search_table = search_table['choice', 'name', 'content', 'similarity_keywords',
+                                'page_rank', 'file_size', 'content_length', 'response_time']
     st.dataframe(search_table,
                  column_config={
                      'content': st.column_config.TextColumn(
                          width='large'),
-                     'name': st.column_config.SelectboxColumn(
-
-                         help='Select for analise',
+                     'choice': st.column_config.CheckboxColumn(
+                         help='Select for analysis',
                          default=0)
 
                  },
                  hide_index=True)
 
-    # selected_row = search_table[search_table['name'] is True]
+    st.table(search_table[search_table['choice'] is True])
 
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
