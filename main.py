@@ -50,7 +50,7 @@ def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
 
     st.write(f'Hi {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-    example_table = bq_base_query()
+    example_table = pd.read_csv('static/example.csv')
     st.dataframe(example_table)
 
     st.write('Search for site')
