@@ -86,7 +86,7 @@ def print_hi(name):
     # st.dataframe(edited_df)
     pr_v = float(edited_df.loc[0, 'page_rank'])
     try:
-        new_content = st.text_input(edited_df.loc[0, 'content'])
+        new_content = st.text_area('new content', edited_df.loc[0, 'content'])
         new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
 
         st.table(edited_df[edited_df['choice'] == 1])
