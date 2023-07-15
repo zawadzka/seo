@@ -80,15 +80,13 @@ def print_hi(name):
                                    )
 
                                },
-                               disabled=('content', 'similarity_keywords',
-                                         'page_rank', 'file_size', 'content_length',
-                                         'response_time',
+                               disabled=('similarity_keywords',
                                          'Number_of_Keywords'),
                                hide_index=True)
     # st.dataframe(edited_df)
     try:
-        new_content = st.data_editor(search_table.loc[0, 'content'])
-        new_pr = st.data_editor(search_table.loc[0, 'page_rank'], st.slider('page rank', 0, 1))
+        new_content = st.text_input(search_table.loc[0, 'content'])
+        new_pr = st.slider('page rank', 0, 1, value=search_table.loc[0, 'page_rank'])
 
         st.table(edited_df[edited_df['choice'] == 1])
     except KeyError:
