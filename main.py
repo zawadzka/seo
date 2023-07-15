@@ -56,9 +56,9 @@ def print_hi(name):
     st.write('Search for site')
     search_table = bq_search_query()
     search_table['choice'] = pd.Series([0 for x in range(len(search_table.index))])
-    search_table.columns = ['choice', 'name', 'content', 'similarity to keyword set',
-                            'content length', 'Page rank', 'response time',
-                            'file size', 'number of keywords']
+    # search_table.rename(columns = ['choice', 'name', 'content', 'similarity to keyword set',
+    #                         'content length', 'Page rank', 'response time',
+    #                         'file size', 'number of keywords'])
 
     st.dataframe(search_table,
                  column_config={
