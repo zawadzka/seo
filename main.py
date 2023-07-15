@@ -1,12 +1,23 @@
-# This is a sample Python script.
+import streamlit as st
+from google.oauth2 import service_account
+from google.cloud.exceptions import NotFound
+from google.cloud import bigquery
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"])
+
+
+# secrets = toml.load('secrets.toml')["gcp_service_account"]
+project_id = 'seo-project-392909'
+secrets = st.secrets["gcp_service_account"]
+# credentials = service_account.Credentials.from_service_account_info(secrets)
+client = bigquery.Client(credentials=credentials)
+# client = bigquery.Client(credentials=credentials, project=project_id)
 
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    name = st.text_input('name')
+    st.write(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
 
 # Press the green button in the gutter to run the script.
