@@ -55,17 +55,26 @@ def print_hi(name):
 
     st.write('Search for site')
     search_table = bq_search_query()
-    search_table.columns = ['name', 'content', 'similarity to keyword set',
+    search_table['choice'] = 0  # [lambda x: False for x in range(len(search_table))]
+    search_table.columns = ['choice', 'name', 'content', 'similarity to keyword set',
                             'content length', 'Page rank', 'response time',
                             'file size', 'number of keywords']
 
-    st.dataframe(search_table,
-                 column_config={
-                  'content': st.column_config.TextColumn(
-                      width='large'
-                  )
-                 },
-                 hide_index=True)
+    st.data_editor(search_table,
+                   column_config={
+                       'content': st.column_config.TextColumn(
+                           width='large'),
+                       'choice': st.column_config.SelectboxColumn('Analyze?',
+                                                                 help='Select for analise',
+                                                                 default=False)
+
+                   },
+                   disabled=['name', 'content', 'similarity to keyword set',
+                             'content length', 'Page rank', 'response time',
+                             'file size', 'number of keywords'],
+                   hide_index=True)
+    selected_row = search_table[search_table['choice'] is True]
+
 
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
