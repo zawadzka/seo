@@ -74,7 +74,7 @@ def print_hi(name):
                              'content length', 'Page rank', 'response time',
                              'file size', 'number of keywords'],
                    hide_index=True)
-    selected_row = search_table[search_table['choice'] is True]
+    selected_row = search_table[search_table['name'] is True]
 
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
