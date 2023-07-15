@@ -70,7 +70,7 @@ def print_hi(name):
         search_table.to_csv('static/search_table.csv')
     else:
         search_table = pd.read_csv('static/search_table.csv')
-    # st.dataframe(search_table)
+    st.dataframe(search_table)
     edited_df = st.data_editor(search_table,
                                column_config={
                                    'content': st.column_config.TextColumn(
@@ -85,7 +85,7 @@ def print_hi(name):
                                          'response_time',
                                          'Number_of_Keywords'),
                                hide_index=True)
-    st.dataframe(edited_df)
+    # st.dataframe(edited_df)
     try:
         new_content = st.data_editor(search_table.loc[0, 'content'])
         new_pr = st.data_editor(search_table.loc[0, 'page_rank'], st.slider('page rank', 0, 1))
