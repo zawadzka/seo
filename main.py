@@ -55,7 +55,16 @@ def print_hi(name):
 
     st.write('Search for site')
     search_table = bq_search_query()
-    st.table(search_table)
+    search_table.columns = ['name', 'content', 'similarity to keyword set',
+                            'content length', 'Page rank', 'response time',
+                            'file size', 'number of keywords']
+
+    st.dataframe(search_table,
+                 column_config={
+                  'content': st.column_config.TextColumn(
+                      width='large'
+                  )
+                 })
 
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
