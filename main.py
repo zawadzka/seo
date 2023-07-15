@@ -22,7 +22,7 @@ bq_table = 'seo-project-392909.seo_dataset.data'
 
 def bq_import(bq_table_name: str = bq_table):
     s = """
-         SELECT sim_sum, full_content, n_keywords
+         SELECT sim_sum as similarity, full_content, Number_of_Keywords as n_keywords
          FROM {} where n_keywords<20 limit 10
      """
     sql = s.format(bq_table_name)
