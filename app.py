@@ -1,16 +1,16 @@
 import streamlit as st
-from google.oauth2 import service_account
-from google.cloud.exceptions import NotFound
-from google.cloud import bigquery
+# from google.oauth2 import service_account
+# from google.cloud.exceptions import NotFound
+# from google.cloud import bigquery
 
-credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"])
+# credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"])
 
 
 # secrets = toml.load('secrets.toml')["gcp_service_account"]
-project_id = 'seo-project-392909'
-secrets = st.secrets["gcp_service_account"]
+# project_id = 'seo-project-392909'
+# secrets = st.secrets["gcp_service_account"]
 # credentials = service_account.Credentials.from_service_account_info(secrets)
-client = bigquery.Client(credentials=credentials)
+# client = bigquery.Client(credentials=credentials)
 # client = bigquery.Client(credentials=credentials, project=project_id)
 
 
