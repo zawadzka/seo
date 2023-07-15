@@ -55,28 +55,32 @@ def print_hi(name):
 
     st.write('Search for site')
     search_table = bq_search_query()
-    search_table['choice'] = pd.Series([0 for _ in range(len(search_table.index))])
-    search_table.loc[0,'choice'] = 1
+    search_table['choice'] = pd.Series()#[0 for _ in range(len(search_table.index))])
+    search_table.loc[0, 'choice'] = 1
     search_table = search_table.rename(columns={'sim_sum': 'similarity_keywords',
                                                 'full_content': 'content',
                                                 'pr': 'page_rank', 'time': 'response_time',
                                                 'size': 'file_size'})
     search_table = search_table[['choice', 'name', 'content', 'similarity_keywords',
-                                'page_rank', 'file_size', 'content_length', 'response_time',
+                                 'page_rank', 'file_size', 'content_length', 'response_time',
                                  'Number_of_Keywords']]
-    st.dataframe(search_table,
-                 column_config={
-                     'content': st.column_config.TextColumn(
-                         width='large'),
-                     'choice': st.column_config.CheckboxColumn(
-                         help='Select for analysis',
-                         )
+    edited_df = st.data_editor(search_table,
+                               column_config={
+                                   'content': st.column_config.TextColumn(
+                                       width='large'),
+                                   'choice': st.column_config.CheckboxColumn(
+                                       help='Select for analysis',
+                                   )
 
-                 },
-                 hide_index=True)
+                               },
+                               disabled=('content', 'similarity_keywords',
+                                         'page_rank', 'file_size', 'content_length',
+                                         'response_time',
+                                         'Number_of_Keywords'),
+                               hide_index=True)
 
     try:
-        st.table(search_table[search_table['choice'] is True])
+        st.table(edited_df[edited_df['choice'] == 1])
     except KeyError:
         st.write('Select one row')
 
