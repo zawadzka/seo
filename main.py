@@ -65,8 +65,8 @@ def print_hi(name):
                        'content': st.column_config.TextColumn(
                            width='large'),
                        'choice': st.column_config.SelectboxColumn('Analyze?',
-                                                                 help='Select for analise',
-                                                                 default=False)
+                                                                  help='Select for analise',
+                                                                  default=0)
 
                    },
                    disabled=['name', 'content', 'similarity to keyword set',
@@ -74,7 +74,6 @@ def print_hi(name):
                              'file size', 'number of keywords'],
                    hide_index=True)
     selected_row = search_table[search_table['choice'] is True]
-
 
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
