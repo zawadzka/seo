@@ -69,7 +69,7 @@ def print_hi(name):
                          width='large'),
                      'choice': st.column_config.CheckboxColumn(
                          help='Select for analysis',
-                         default=0)
+                         )
 
                  },
                  hide_index=True)
