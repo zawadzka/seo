@@ -85,7 +85,7 @@ def print_hi(name):
                                          'response_time',
                                          'Number_of_Keywords'),
                                hide_index=True)
-
+    st.dataframe(edited_df)
     try:
         new_content = st.data_editor(search_table.loc[0, 'content'])
         new_pr = st.data_editor(search_table.loc[0, 'page_rank'], st.slider('page rank', 0, 1))
