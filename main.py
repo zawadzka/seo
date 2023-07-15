@@ -6,7 +6,6 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 import pickle
 
-
 credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"])
 # secrets = toml.load('secrets.toml')["gcp_service_account"]
 project_id = 'seo-project-392909'
@@ -20,10 +19,12 @@ bq_table = 'seo-project-392909.seo_dataset.data'
 # bq_secrets = secrets, bq_client = client,
 
 
-def bq_import(bq_table_name: str = bq_table):
+def bq_base_query(bq_table_name: str = bq_table):
     s = """
          SELECT name,  full_content, sim_sum as similarity, Number_of_Keywords 
-         FROM {} where Number_of_Keywords<20 and name is not null 
+         FROM {} where Number_of_Keywords between 20 
+         and 100 and url like '%/site/%'
+         and name is not null 
          limit 10
      """
     sql = s.format(bq_table_name)
@@ -35,7 +36,7 @@ def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
 
     st.write(f'Hi {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-    data = bq_import()
+    data = bq_base_query()
     st.dataframe(data)
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
