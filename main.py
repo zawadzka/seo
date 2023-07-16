@@ -83,7 +83,7 @@ def main():
 
         search_table.to_csv('static/search_table.csv')
         return search_table
-
+        st.button('run')
         search_table = load()
         search_table
 
