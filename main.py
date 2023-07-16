@@ -98,13 +98,15 @@ def main():
         try:
             pr_v = float(edited_df.loc[ind[0][0], 'pr'])
             content = edited_df.loc[ind[0][0], 'content']
-
-            new_content = st.text_area('new content', content)
-            new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
-
         except KeyError:
             st.write('Select one row')
         st.form_submit_button('Perform')
+    st.write(new_content)
+    try:
+        new_content = st.text_area('new content', content)
+        new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
+    except KeyError:
+        new_content = content
     st.write(new_content)
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
