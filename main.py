@@ -80,7 +80,7 @@ def main():
         search_table.to_csv('static/search_table.csv')
 
         # st.dataframe(search_table)
-
+        st.form_submit_button('Search for coupon page')
         edited_df = st.data_editor(search_table,
                                    column_config={
                                        'content': st.column_config.TextColumn(
@@ -97,7 +97,7 @@ def main():
         choice = edited_df.loc[edited_df['choice'] == 1, :]
         pr_v = float(choice.loc[0, 'pr'])
         content = choice.loc[0, 'content']
-        st.form_submit_button('Search for coupon page')
+
         try:
             new_content = st.text_area('new content', content)
             new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
