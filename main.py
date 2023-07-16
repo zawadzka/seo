@@ -66,7 +66,7 @@ def main():
     st.write('Search for site')
     q1 = st.text_input('company name', 'FlixBus')
 
-    @st.cache_data()
+    @st.cache_data
     def load(q1=q1):
 
         q1 = q1.strip().lower().replace(r'\s+', '-')
@@ -83,6 +83,8 @@ def main():
 
         search_table.to_csv('static/search_table.csv')
         return search_table
+
+
         st.button('run')
 
         search_table = load()
