@@ -78,7 +78,7 @@ class SentenceTransformerTF:
         :type a: tf.Tensor to be divided
         """
         a = tnp.reshape(a, (a.shape[1],))
-        print(f'ashape[0]{a.shape[0]}, window size {window_size}, overlap {overlap}')
+        # print(f'ashape[0]{a.shape[0]}, window size {window_size}, overlap {overlap}')
         if a.shape[0] > 0:
 
             rep = 1 + (a.shape[0] - window_size) // (window_size - overlap)
@@ -114,7 +114,7 @@ class SentenceTransformerTF:
     def to_chunks(self, sentence, overlap: int = 4, window_size: int = 126, max_len: int = 512):
         tokens = self.tokenizer(self.sentence, add_special_tokens=False,
                                 truncation=False, return_tensors='tf')
-        print(f"tokens {tokens['input_ids']},\n overlap {overlap}" )
+        # print(f"tokens {tokens['input_ids']},\n overlap {overlap}" )
         token_chunks = self.moving_window(tokens['input_ids'], overlap, window_size)
         return token_chunks
 
@@ -129,21 +129,31 @@ class InputData:
     :param size: file size, from scraping
     :type size: int, in KB
     """
-    keywordSet: set[Any]
+    universal_keyword_set = uks
 
     def __init__(self, content: str, name: str, pr: float, size: int,
-                 time: float, universal_keyword_set: set = uks):
+                 time: float):
         self.content = content
         self.name = name
         self._pr = pr
-
-        self.size = size
-        self.keywordSet = [re.sub(r'<plc>', self.name, k) for k in universal_keyword_set]
         self.time = time
-        self.content_length = len(content)
-
-        self.embeddings = self.content_embeddings()
-        self.sim_sum = self.similarity()
+        self.size = size
+        
+    @property
+    def content_length(self):
+        return len(self.content)
+    
+    @property
+    def embeddings(self):
+        return self.content_embeddings()
+    
+    @property
+    def sim_sum(self):
+        return self.similarity()
+    
+    @property
+    def keywordSet(self, universal_keyword_set=universal_keyword_set):
+        return [re.sub(r'<plc>', self.name, k) for k in universal_keyword_set]
 
     @property
     def pr(self):

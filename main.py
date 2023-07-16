@@ -6,6 +6,7 @@ import numpy as np
 from google.cloud import bigquery
 from google.oauth2 import service_account
 import pickle
+import utils
 
 credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"])
 # secrets = toml.load('secrets.toml')["gcp_service_account"]
@@ -102,55 +103,21 @@ def main():
                                       default=search_table.name[0], max_selections=1)
     try:
         ind = search_table[search_table['name'] == selected_indices[0]].index[0]
-        content = search_table.loc[ind, 'content']
-        pr_v = float(search_table.loc[ind, 'pr'])
     except IndexError:
-        content = search_table.loc[0, 'content']
-        pr_v = float(search_table.loc[0, 'pr'])
+        ind = 0
 
+    content = search_table.loc[ind, 'content']
+    pr_v = float(search_table.loc[ind, 'pr'])
+    name = search_table.loc[ind, 'name']
+    size = search_table.loc[ind, 'size']
+    time = search_table.loc[ind, 'time']
     new_content = st.text_area('Change text to examine new content', content)
     new_pr = st.slider('Insert new page rank value', 0.0, 1.0, pr_v, step=0.01)
     st.write(new_pr, new_content)
 
-    # try:
-    # ind = search_table[search_table['name'==selected_indices[0]].index[0]
-    #
-    #     pr_v = search_table.loc[ind, 'pr']
-    #     content = edited_df.loc[ind[0][0], 'content']
-    # except KeyError:
-    #     st.write('Select one row')
-    # try:
-    #     new_content = st.text_area('new content', content)
-    #     new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
-    # except KeyError:
-
-    #     new_content = content
-    # st.write(new_content)
-
-    # st.dataframe(search_table)
-    # edited_df = st.data_editor(search_table,
-    #                            column_config={
-    #                                'content': st.column_config.TextColumn(
-    #                                    width='large'),
-    #                                'choice': st.column_config.CheckboxColumn(
-    #                                    help='Select for analysis',
-    #                                )
-    #
-    #                            },
-    #                            disabled=('similarity_keywords',
-    #                                      'Number_of_Keywords'),
-    #                            hide_index=True)
-    #
-    # ind = np.where(edited_df['choice'].to_numpy() == 1)
-
-    # st.write(new_content)
-    # with open('/static/data_all.dataframe' , 'wb') as f:
-    #     data_from_pickle = pickle.load(f)
-    # st.dataframe(data.head())
-    # st.dataframe(data_from_pickle)
+    page = utils.InputData(new_content, name, new_pr, size, time)
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     main()
 
