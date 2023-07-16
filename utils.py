@@ -21,8 +21,6 @@ m_handle = 'sentence-transformers/all-MiniLM-L6-v2'
 bq_table = 'seo-project-392909.seo_dataset.data'
 project_id = 'seo-project-392909'
 secrets = st.secrets["gcp_service_account"]
-bq_credentials = service_account.Credentials.from_service_account_file(secrets)
-client = bigquery.Client(project=project_id, credentials=bq_credentials)
 
 """
 Universal keyword set:
