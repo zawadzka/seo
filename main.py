@@ -82,6 +82,7 @@ def main():
                                      'Number_of_Keywords']]
 
         search_table.to_csv('static/search_table.csv')
+        st.table(search_table)
         return search_table
 
 
