@@ -93,12 +93,18 @@ def main():
                                       default=search_table.name[0], max_selections=1)
     # selected_indices
     ind = search_table[search_table['name'] == selected_indices[0]].index[0]
-    ind
-    content = search_table.loc[ind, 'content']
+    # ind
+    try:
+        content = search_table.loc[ind, 'content']
+        pr_v = float(search_table.loc[ind, 'pr'])
+    except IndexError:
+        content = search_table.loc[0, 'content']
+        pr_v = float(search_table.loc[0, 'pr'])
+
     new_content = st.text_area('new content', content)
-    pr_v = float(search_table.loc[ind, 'pr'])
     new_pr = st.slider('page rank', 0.0, 1.0, pr_v, step=0.01)
     st.write(new_pr, new_content)
+
     # try:
     # ind = search_table[search_table['name'==selected_indices[0]].index[0]
     #
