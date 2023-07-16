@@ -89,8 +89,8 @@ def main():
     st.dataframe(search_table)
 
     # st.button('rerun')
-    selected_indices = st.selectbox('Select one row:', search_table.name,
-                                      default=search_table.name[0])
+    selected_indices = st.multiselect('Select one row:', search_table.name,
+                                      default=search_table.name[0], max_selections=1)
     # selected_indices
     ind = search_table[search_table['name'] == selected_indices[0]].index[0]
     ind
