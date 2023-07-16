@@ -1,4 +1,4 @@
-from typing import List, Any
+from typing import Any
 import re
 import pandas as pd
 import numpy as np
@@ -34,7 +34,7 @@ Possible keywords for those pages doesn't vary to the large extend -
 the main difference is the product name. 
 """
 try:
-    with open('universal_keyword_set.txt') as f:
+    with open('static/universal_keyword_set.txt') as f:
         uks = f.readlines()
         uks = set(uks)
 except FileNotFoundError as err:
@@ -132,9 +132,7 @@ class InputData:
     keywordSet: set[Any]
 
     def __init__(self, content: str, name: str, pr: float, size: int,
-                 time: float, sim_num: float = None,
-                 content_length: int = None,
-                 universal_keyword_set: set = uks):
+                 time: float, universal_keyword_set: set = uks):
         self.content = content
         self.name = name
         self._pr = pr
@@ -146,8 +144,6 @@ class InputData:
 
         self.embeddings = self.content_embeddings()
         self.sim_sum = self.similarity()
-        # self.content_embeddings()
-        # self.similarity()
 
     @property
     def pr(self):
@@ -178,7 +174,7 @@ class InputData:
         b = self.embeddings
         a = np.array(a)
         b = np.array(b)
-        print(a, b)
+
         sims = np.array(sentence_transformers.util.cos_sim(a, b))
         return np.sum(sims)
 
