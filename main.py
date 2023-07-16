@@ -84,9 +84,7 @@ def main():
         except KeyError:
             st.write(f'There is no {q} in the database. Example table:')
             s_table = pd.read_csv('static/search_table.csv')
-        if not s_table.index:
-            pass
-        else:
+        if not s_table.empty:
             s_table.to_csv('static/search_table.csv')
         # st.table(search_table)
         return s_table
