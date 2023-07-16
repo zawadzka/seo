@@ -101,14 +101,16 @@ def main():
             content = edited_df.loc[ind[0][0], 'content']
         except KeyError:
             st.write('Select one row')
+        try:
+            new_content = st.text_area('new content', content)
+            new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
+        except KeyError:
+            new_content = content
+        st.write(new_content)
+
         st.form_submit_button('Perform')
 
-    try:
-        new_content = st.text_area('new content', content)
-        new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
-    except KeyError:
-        new_content = content
-    st.write(new_content)
+
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
     # st.dataframe(data.head())
