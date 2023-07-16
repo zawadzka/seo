@@ -82,15 +82,14 @@ def main():
                                      'Number_of_Keywords']]
 
         search_table.to_csv('static/search_table.csv')
-        st.table(search_table)
+        # st.table(search_table)
         return search_table
 
 
-        st.button('run')
 
-        search_table = load()
-        search_table
-
+        search_table = load(q1)
+        st.table(search_table)
+        st.button('rerun')
         selected_indices = st.multiselect('Select rows:', search_table.name,
                                           default=search_table.name[0])
         # content = search_table.loc[selected_indices[0], 'content']
