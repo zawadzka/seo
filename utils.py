@@ -117,3 +117,72 @@ class SentenceTransformerTF:
         print(f"tokens {tokens['input_ids']},\n overlap {overlap}" )
         token_chunks = self.moving_window(tokens['input_ids'], overlap, window_size)
         return token_chunks
+
+
+class InputData:
+    """
+    The InputData object contains inputs from Streamlit & BQ
+    :param text: Text of description written by editors, scraped and saved in BQ
+    :type text: str
+    :param pr: Page rank value, calculated based on scraped internal links
+    :type pr: float between 0 and 1 with step 0.01
+    :param size: file size, from scraping
+    :type size: int, in KB
+    """
+    keywordSet: set[Any]
+
+    def __init__(self, content: str, name: str, pr: float, size: int,
+                 time: float, sim_num: float = None,
+                 content_length: int = None,
+                 universal_keyword_set: set = uks):
+        self.content = content
+        self.name = name
+        self._pr = pr
+
+        self.size = size
+        self.keywordSet = [re.sub(r'<plc>', self.name, k) for k in universal_keyword_set]
+        self.time = time
+        self.content_length = len(content)
+
+        self.embeddings = self.content_embeddings()
+        self.sim_sum = self.similarity()
+        # self.content_embeddings()
+        # self.similarity()
+
+    @property
+    def pr(self):
+        return self._pr
+
+    @pr.setter
+    def pr(self, value):
+        if value not in np.arange(0, 1, .01):
+            raise ValueError("Page rank should be between 0 and 1")
+        else:
+            self._pr = value
+
+    def content_embeddings(self, model_handle: str = m_handle):
+        sent_transf = SentenceTransformerTF(self.content, model_handle)
+        return sent_transf.embeddings
+
+    def keywords_embeddings(self, model_handle: str = m_handle):
+        sentence_model = SentenceTransformer(model_handle)
+        return sentence_model.encode(self.keywordSet, convert_to_tensor=False)
+
+    def similarity(self):
+        """
+        It calculates cosine similarity using huggingface bert model
+        and tensorflow function -  equivalent of SentenceTransformer
+        :return: sim_sum: float
+        """
+        a = self.keywords_embeddings()
+        b = self.embeddings
+        a = np.array(a)
+        b = np.array(b)
+        print(a, b)
+        sims = np.array(sentence_transformers.util.cos_sim(a, b))
+        return np.sum(sims)
+
+
+
+
+
