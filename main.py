@@ -93,13 +93,13 @@ def main():
                                    disabled=('similarity_keywords',
                                              'Number_of_Keywords'),
                                    hide_index=True)
-        # st.dataframe(edited_df)
-        pr_v = float(edited_df.loc[0, 'pr'])
+
+        choiced = edited_df.loc[edited_df['choice'] == 1, :]
+        pr_v = float(choiced.loc[0, 'pr'])
         try:
-            new_content = st.text_area('new content', edited_df.loc[0, 'content'])
+            new_content = st.text_area('new content', choiced.loc[0, 'content'])
             new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
 
-        # st.table(edited_df[edited_df['choice'] == 1])
         except KeyError:
             st.write('Select one row')
 
