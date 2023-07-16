@@ -96,7 +96,7 @@ def main():
                                       default=search_table.name[0], max_selections=1)
     except KeyError:
         st.write(f'There is no such query in the database. Example table:')
-        search_table = pd.read_csv('static/search_table.csv'))
+        search_table = pd.read_csv('static/search_table.csv')
         selected_indices = st.multiselect('Select one row:', search_table.name,
                                       default=search_table.name[0], max_selections=1)
     try:
