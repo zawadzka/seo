@@ -64,10 +64,10 @@ def main():
     st.dataframe(example_table)
 
     st.write('Search for site')
+    q1 = st.text_input('company name', 'FlixBus')
 
-    @st.cache_data(experimental_allow_widgets=True)
-    def load():
-        q1 = st.text_input('company name', 'FlixBus')
+    @st.cache_data()
+    def load(q1=q1):
 
         q1 = q1.strip().lower().replace(r'\s+', '-')
 
@@ -84,6 +84,7 @@ def main():
         search_table.to_csv('static/search_table.csv')
         return search_table
         st.button('run')
+
         search_table = load()
         search_table
 
