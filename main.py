@@ -83,7 +83,7 @@ def main():
 
         search_table.to_csv('static/search_table.csv')
         return search_table
-
+        st.button('Run')
         # st.dataframe(search_table)
         # edited_df = st.data_editor(search_table,
         #                            column_config={
