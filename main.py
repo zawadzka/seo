@@ -2,6 +2,7 @@ import os.path
 
 import streamlit as st
 import pandas as pd
+import numpy as np
 from google.cloud import bigquery
 from google.oauth2 import service_account
 import pickle
@@ -94,9 +95,10 @@ def main():
                                              'Number_of_Keywords'),
                                    hide_index=True)
 
-        edited_df.loc[edited_df['choice'] == 1, :]
-        pr_v = float(edited_df.loc[edited_df['choice'] == 1, 'pr'])
-        content = edited_df.loc[edited_df['choice'] == 1, 'content']
+        ind = np.where(edited_df.loc['choice', :].to_numpy() == 1)
+
+        pr_v = float(edited_df.loc[ind[0], 'pr'])
+        content = edited_df.loc[ind[0], 'content']
 
         try:
             new_content = st.text_area('new content', content)
