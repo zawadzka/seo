@@ -66,7 +66,7 @@ def main():
     st.write('Search for site')
 
     @st.cache_data()
-    with st.form('selection'):
+    def load():
         q1 = st.text_input('company name', 'FlixBus')
         q1 = q1.strip().lower().replace(r'\s+', '-')
 
@@ -81,8 +81,7 @@ def main():
                                      'Number_of_Keywords']]
 
         search_table.to_csv('static/search_table.csv')
-        st.form_submit_button('Perform')
-
+        return search_table
         # st.dataframe(search_table)
         # edited_df = st.data_editor(search_table,
         #                            column_config={
