@@ -81,7 +81,7 @@ def main():
                                      'pr', 'file_size', 'content_length', 'response_time',
                                      'Number_of_Keywords']]
 
-        search_table.to_csv('static/search_table.csv')
+        # search_table.to_csv('static/search_table.csv')
         # st.table(search_table)
         return search_table
 
@@ -89,6 +89,7 @@ def main():
 
         search_table = load(q1)
         st.table(search_table)
+
         st.button('rerun')
         selected_indices = st.multiselect('Select rows:', search_table.name,
                                           default=search_table.name[0])
