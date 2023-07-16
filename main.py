@@ -32,13 +32,12 @@ def bq_base_query(bq_table_name: str = bq_table):
     return data
 
 
-def bq_search_query(bq_table_name: str = bq_table):
-    search_name = st.text_input("Find coupon page for: ", "CCleaner")
+def bq_search_query(search_name, bq_table_name: str = bq_table):
     s = """
     SELECT name,  full_content, sim_sum, content_length, pr, 
     time, size, Number_of_Keywords 
     FROM {} where url like '%/site/%'
-    and name like '%{}%'
+    and url like {}
     limit 10
     """
     sql = s.format(bq_table_name, search_name)
@@ -46,14 +45,31 @@ def bq_search_query(bq_table_name: str = bq_table):
     return data
 
 
-def print_hi(name):
+def main():
     # Use a breakpoint in the code line below to debug your script.
 
-    st.write(f'Hi {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    st.write(f'''Data about pages consist of company/product name, \n
+                editorial content written about this company, \n
+                and some descriptive fields - calculated inner page rank, \n
+                semantic similarity to typical coupon \n 
+                and promotion related keywords, 
+                file size, page load speed - response time during crawling, \n
+                and number of keywords the company's coupon page is visible for \n
+                (based on an external tool).  
+                ''')
+    st.write('The table beneath show some example with basic fields')
     example_table = pd.read_csv('static/example.csv')
     st.dataframe(example_table)
 
     st.write('Search for site')
+    with st.form('selection'):
+        q1 = st.text_input('company name', 'FlixBus')
+        q1 = q1.strip().lower().replace(r'\s+', '-')
+        q1 = f'%{q1}%'
+        sb = st.form_submit_button('Search for coupon page')
+        if sb:
+            search_table = bq_search_query(q1)
+
     ch = st.checkbox('Do you want to perform a query?', False)
     if ch:
         search_table = bq_search_query()
@@ -110,6 +126,6 @@ def print_hi(name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    main()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
