@@ -112,10 +112,12 @@ def main():
         # st.write(new_content)
 
     search_table = load()
-    selected_indices = st.multiselect('Select rows:', search_table.index)
-    content = search_table.loc[selected_indices[0], 'content']
-    new_content = st.text_area('new content', content)
+    search_table
 
+    selected_indices = st.multiselect('Select rows:', search_table.index)
+    # content = search_table.loc[selected_indices[0], 'content']
+    # new_content = st.text_area('new content', content)
+    selected_indices
 
 
     st.write(new_content)
