@@ -82,6 +82,7 @@ def main():
 
         search_table.to_csv('static/search_table.csv')
         return search_table
+
         # st.dataframe(search_table)
         # edited_df = st.data_editor(search_table,
         #                            column_config={
@@ -108,6 +109,8 @@ def main():
         # except KeyError:
         #     new_content = content
         # st.write(new_content)
+
+    search_table = load()
     selected_indices = st.multiselect('Select rows:', search_table.index)
     content = search_table.loc[selected_indices[0], 'content']
     new_content = st.text_area('new content', content)
