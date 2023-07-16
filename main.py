@@ -43,6 +43,7 @@ def bq_search_query(search_name, bq_table_name: str = bq_table):
     """
     sql = s.format(bq_table_name, search_name)
     data = client.query(sql).to_dataframe()
+    st.write('BQ ran')
     return data
 
 
