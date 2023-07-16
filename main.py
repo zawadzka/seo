@@ -96,13 +96,15 @@ def main():
 
         choice = edited_df.loc[edited_df['choice'] == 1, :]
         pr_v = float(choice.loc[0, 'pr'])
+        content = choice.loc[0, 'content']
+        st.form_submit_button('Search for coupon page')
         try:
-            new_content = st.text_area('new content', choice.loc[0, 'content'])
+            new_content = st.text_area('new content', content)
             new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
 
         except KeyError:
             st.write('Select one row')
-        st.form_submit_button('Search for coupon page')
+
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
     # st.dataframe(data.head())
