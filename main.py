@@ -117,6 +117,7 @@ def main():
     st.write(new_pr, new_content)
 
     page = utils.InputData(new_content, name, new_pr, size, time)
+    st.write(f'similarity: {page.sim_sum}\n content length: {page.content_length}')
 
 
 if __name__ == '__main__':
