@@ -81,27 +81,27 @@ def main():
 
         # st.dataframe(search_table)
 
-    edited_df = st.data_editor(search_table,
-                               column_config={
-                                   'content': st.column_config.TextColumn(
-                                       width='large'),
-                                   'choice': st.column_config.CheckboxColumn(
-                                       help='Select for analysis',
-                                   )
+        edited_df = st.data_editor(search_table,
+                                   column_config={
+                                       'content': st.column_config.TextColumn(
+                                           width='large'),
+                                       'choice': st.column_config.CheckboxColumn(
+                                           help='Select for analysis',
+                                       )
 
-                               },
-                               disabled=('similarity_keywords',
-                                         'Number_of_Keywords'),
-                               hide_index=True)
-    # st.dataframe(edited_df)
-    pr_v = float(edited_df.loc[0, 'pr'])
-    try:
-        new_content = st.text_area('new content', edited_df.loc[0, 'content'])
-        new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
+                                   },
+                                   disabled=('similarity_keywords',
+                                             'Number_of_Keywords'),
+                                   hide_index=True)
+        # st.dataframe(edited_df)
+        pr_v = float(edited_df.loc[0, 'pr'])
+        try:
+            new_content = st.text_area('new content', edited_df.loc[0, 'content'])
+            new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
 
         # st.table(edited_df[edited_df['choice'] == 1])
-    except KeyError:
-        st.write('Select one row')
+        except KeyError:
+            st.write('Select one row')
 
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
