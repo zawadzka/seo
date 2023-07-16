@@ -80,7 +80,7 @@ def main():
             s_table = s_table[['choice', 'name', 'content', 'similarity_keywords',
                                          'pr', 'file_size', 'content_length', 'response_time',
                                          'Number_of_Keywords']]
-
+            s_table.to_csv('static/search_table.csv')
         except KeyError:
             st.write(f'There is no {q} in the database. Example table:')
             s_table = pd.read_csv('static/search_table.csv')
