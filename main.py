@@ -105,7 +105,7 @@ def main():
         except KeyError:
             st.write('Select one row')
         st.form_submit_button('Perform')
-
+    st.write(new_content)
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
     # st.dataframe(data.head())
