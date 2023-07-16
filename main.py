@@ -70,30 +70,29 @@ def main():
         q = st.text_input('company name', 'FlixBus')
 
         q = q.strip().lower().replace(r'\s+', '-')
+        try:
+            s_table = bq_search_query(q)
+            s_table['choice'] = pd.Series([x for x in range(len(s_table))])
 
-        search_table = bq_search_query(q)
-        search_table['choice'] = pd.Series([x for x in range(len(search_table))])
+            s_table = s_table.rename(columns={'sim_sum': 'similarity_keywords',
+                                                        'full_content': 'content', 'time': 'response_time',
+                                                        'size': 'file_size'})
+            s_table = s_table[['choice', 'name', 'content', 'similarity_keywords',
+                                         'pr', 'file_size', 'content_length', 'response_time',
+                                         'Number_of_Keywords']]
 
-        search_table = search_table.rename(columns={'sim_sum': 'similarity_keywords',
-                                                    'full_content': 'content', 'time': 'response_time',
-                                                    'size': 'file_size'})
-        search_table = search_table[['choice', 'name', 'content', 'similarity_keywords',
-                                     'pr', 'file_size', 'content_length', 'response_time',
-                                     'Number_of_Keywords']]
-
+        except KeyError:
+            st.write(f'There is no {q} in the database. Example table:')
+            s_table = pd.read_csv('static/search_table.csv')
         # search_table.to_csv('static/search_table.csv')
         # st.table(search_table)
-        return search_table
+        return s_table
 
     search_table = load()
     st.dataframe(search_table)
 
-    # st.button('rerun')
     selected_indices = st.multiselect('Select one row:', search_table.name,
                                       default=search_table.name[0], max_selections=1)
-    # selected_indices
-
-    # ind
     try:
         ind = search_table[search_table['name'] == selected_indices[0]].index[0]
         content = search_table.loc[ind, 'content']
@@ -102,8 +101,8 @@ def main():
         content = search_table.loc[0, 'content']
         pr_v = float(search_table.loc[0, 'pr'])
 
-    new_content = st.text_area('new content', content)
-    new_pr = st.slider('page rank', 0.0, 1.0, pr_v, step=0.01)
+    new_content = st.text_area('Change text to examine new content', content)
+    new_pr = st.slider('Insert new page rank value', 0.0, 1.0, pr_v, step=0.01)
     st.write(new_pr, new_content)
 
     # try:
