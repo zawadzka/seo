@@ -60,7 +60,7 @@ def main():
     st.write('The table beneath show some example with basic fields')
     example_table = pd.read_csv('static/example.csv')
     st.dataframe(example_table)
-
+    search_table = pd.read_csv('static/search_table.csv')
     st.write('Search for site')
     with st.form('selection'):
         q1 = st.text_input('company name', 'FlixBus')
@@ -69,6 +69,7 @@ def main():
         sb = st.form_submit_button('Search for coupon page')
         if sb:
             search_table = bq_search_query(q1)
+            search_table.to_csv('static/search_table.csv')
 
     # ch = st.checkbox('Do you want to perform a query?', False)
     # if ch:
@@ -96,6 +97,9 @@ def main():
     #                                  'Number_of_Keywords']]
 
     # st.dataframe(search_table)
+
+
+
     edited_df = st.data_editor(search_table,
                                column_config={
                                    'content': st.column_config.TextColumn(
