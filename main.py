@@ -96,7 +96,7 @@ def main():
     ind
     content = search_table.loc[ind, 'content']
     new_content = st.text_area('new content', content)
-    pr_v = search_table.loc[ind, 'pr']
+    pr_v = float(search_table.loc[ind, 'pr'])
     new_pr = st.slider('page rank', 0.0, 1.0, pr_v, step=0.01)
     st.write(new_pr, new_content)
     # try:
