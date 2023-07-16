@@ -64,10 +64,10 @@ def main():
     st.dataframe(example_table)
 
     st.write('Search for site')
-    q1 = st.text_input('company name', 'FlixBus')
 
-    @st.cache_data()
-    def load(q1=q1):
+    @st.cache_data(experimental_allow_widgets=True)
+    def load():
+        q1 = st.text_input('company name', 'FlixBus')
 
         q1 = q1.strip().lower().replace(r'\s+', '-')
 
@@ -83,9 +83,17 @@ def main():
 
         search_table.to_csv('static/search_table.csv')
         return search_table
-        if st.button('Run'):
-            search_table = load()
-            search_table
+
+        search_table = load()
+        search_table
+
+        selected_indices = st.multiselect('Select rows:', search_table.name,
+                                          default=search_table.name[0])
+        # content = search_table.loc[selected_indices[0], 'content']
+        # new_content = st.text_area('new content', content)
+        selected_indices
+
+
         # st.dataframe(search_table)
         # edited_df = st.data_editor(search_table,
         #                            column_config={
@@ -112,14 +120,6 @@ def main():
         # except KeyError:
         #     new_content = content
         # st.write(new_content)
-
-
-
-    selected_indices = st.multiselect('Select rows:', search_table.name,
-                                      default=search_table.name[0])
-    # content = search_table.loc[selected_indices[0], 'content']
-    # new_content = st.text_area('new content', content)
-    selected_indices
 
 
     # st.write(new_content)
