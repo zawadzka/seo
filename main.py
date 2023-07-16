@@ -81,7 +81,6 @@ def main():
         search_table.to_csv('static/search_table.csv')
 
         # st.dataframe(search_table)
-        st.form_submit_button('Search for coupon page')
         edited_df = st.data_editor(search_table,
                                    column_config={
                                        'content': st.column_config.TextColumn(
@@ -96,16 +95,16 @@ def main():
                                    hide_index=True)
 
         ind = np.where(edited_df['choice'].to_numpy() == 1)
-
-        pr_v = float(edited_df.loc[ind[0][0], 'pr'])
-        content = edited_df.loc[ind[0][0], 'content']
-
         try:
+            pr_v = float(edited_df.loc[ind[0][0], 'pr'])
+            content = edited_df.loc[ind[0][0], 'content']
+
             new_content = st.text_area('new content', content)
             new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
 
         except KeyError:
             st.write('Select one row')
+        st.form_submit_button('Perform')
 
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
