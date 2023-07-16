@@ -76,11 +76,12 @@ def main():
             s_table['choice'] = pd.Series([x for x in range(len(s_table))])
 
             s_table = s_table.rename(columns={'sim_sum': 'similarity_keywords',
-                                                        'full_content': 'content', 'time': 'response_time',
-                                                        'size': 'file_size'})
+                                              'full_content': 'content',
+                                              'time': 'response_time',
+                                              'size': 'file_size'})
             s_table = s_table[['choice', 'name', 'content', 'similarity_keywords',
-                                         'pr', 'file_size', 'content_length', 'response_time',
-                                         'Number_of_Keywords']]
+                               'pr', 'file_size', 'content_length', 'response_time',
+                               'Number_of_Keywords']]
 
         except KeyError:
             st.write(f'There is no {q} in the database. Example table:')
@@ -95,12 +96,12 @@ def main():
 
     try:
         selected_indices = st.multiselect('Select one row:', search_table.name,
-                                      default=search_table.name[0], max_selections=1)
+                                          default=search_table.name[0], max_selections=1)
     except (ValueError, KeyError):
         st.write(f'There is no such query in the database. Example table:')
         search_table = pd.read_csv('static/search_table.csv')
         selected_indices = st.multiselect('Select one row:', search_table.name,
-                                      default=search_table.name[0], max_selections=1)
+                                          default=search_table.name[0], max_selections=1)
     try:
         ind = search_table[search_table['name'] == selected_indices[0]].index[0]
     except IndexError:
@@ -109,8 +110,8 @@ def main():
     content = search_table.loc[ind, 'content']
     pr_v = float(search_table.loc[ind, 'pr'])
     name = search_table.loc[ind, 'name']
-    size = search_table.loc[ind, 'size']
-    time = search_table.loc[ind, 'time']
+    size = search_table.loc[ind, 'file_size']
+    time = search_table.loc[ind, 'response_time']
     new_content = st.text_area('Change text to examine new content', content)
     new_pr = st.slider('Insert new page rank value', 0.0, 1.0, pr_v, step=0.01)
     st.write(new_pr, new_content)
