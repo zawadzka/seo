@@ -95,7 +95,7 @@ def main():
                                              'Number_of_Keywords'),
                                    hide_index=True)
 
-        ind = np.where(edited_df.loc['choice', :].to_numpy() == 1)
+        ind = np.where(edited_df['choice'].to_numpy() == 1)
 
         pr_v = float(edited_df.loc[ind[0], 'pr'])
         content = edited_df.loc[ind[0], 'content']
