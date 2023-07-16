@@ -1,15 +1,44 @@
+from typing import List, Any
+import re
 import pandas as pd
 import numpy as np
 import streamlit as st
 from transformers import TFAutoModel, AutoTokenizer
 import tensorflow as tf
 import tensorflow.experimental.numpy as tnp
-
+import sentence_transformers
 from tensorflow.python.ops.numpy_ops import np_config
 
 np_config.enable_numpy_behavior()
 
+from google.cloud import bigquery
+from google.oauth2 import service_account
+
+service_account_file = f'{files_path}/play-project-328009-019f6ddaa96b.json'
+
 m_handle = 'sentence-transformers/all-MiniLM-L6-v2'
+bq_table = 'seo-project-392909.seo_dataset.data'
+project_id = 'seo-project-392909'
+secrets = st.secrets["gcp_service_account"]
+bq_credentials = service_account.Credentials.from_service_account_file(secrets)
+client = bigquery.Client(project=project_id, credentials=bq_credentials)
+
+"""
+Universal keyword set:
+For the couponfollow.com site the most important (conversion) keywords 
+are based directly on products - landing pages with coupons 
+for particular shop/service. 
+Those landing pages are located in the /site/ folder in the main domain. 
+Possible keywords for those pages doesn't vary to the large extend - 
+the main difference is the product name. 
+"""
+try:
+    with open('universal_keyword_set.txt') as f:
+        uks = f.readlines()
+        uks = set(uks)
+except FileNotFoundError as err:
+    print(f'No keyword set loaded {err}')
+    uks = {}
 
 
 class InputData:
@@ -22,13 +51,20 @@ class InputData:
     :param size: file size, from scraping
     :type size: int, in KB
     """
+    keywordSet: list[Any]
 
-    def __init__(self, text: str, pr: float, size: int):
-        self.text = text
+    def __init__(self, content: str, name: str, pr: float, size: int,
+                 time: float, sim_num: float = None,
+                 content_length: int = None,
+                 universal_keyword_set: set = uks):
+        self.content = content
+        self.name = name
         self._pr = pr
         self.size = size
-        self.content = None
-        self.sim_sum = None
+        self.sim_sum = sim_num
+        self.keywordSet = [re.sub(r'<plc>', self.name, k) for k in universal_keyword_set]
+        self.time = time
+        self.content_length = content_length
 
     @property
     def pr(self):
@@ -47,7 +83,28 @@ class InputData:
         and tensorflow function -  equivalent of SentenceTransformer
         :return: sim_sum: float
         """
-        pass
+
+
+class BigQueryImport(InputData):
+    def __init__(self, bq_table_name: str = bq_table) -> object:
+        super().__init__(self)
+
+    def bq_data_import(self, bq_table_name: str = bq_table):
+        s = """
+            SELECT time, sim_sum, full_content, size, pr, content_length
+            FROM {}
+        """
+        sql = s.format(bq_table_name)
+        page = client.query(sql)
+        for row in page:
+            self.time = page.time
+            self.sim_sum = page.sim_sum
+            self.size = page.size
+            self.pr = page.pr
+            self.content = page.full_content
+            self.content_length = page.content_length
+
+
 
 
 class SentenceTransformerTF:
