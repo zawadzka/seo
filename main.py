@@ -97,8 +97,8 @@ def main():
 
         ind = np.where(edited_df['choice'].to_numpy() == 1)
 
-        pr_v = float(edited_df.loc[ind[0], 'pr'])
-        content = edited_df.loc[ind[0], 'content']
+        pr_v = float(edited_df.loc[ind[0][0], 'pr'])
+        content = edited_df.loc[ind[0][0], 'content']
 
         try:
             new_content = st.text_area('new content', content)
