@@ -92,9 +92,10 @@ def main():
     selected_indices = st.multiselect('Select one row:', search_table.name,
                                       default=search_table.name[0], max_selections=1)
     # selected_indices
-    ind = search_table[search_table['name'] == selected_indices[0]].index[0]
+
     # ind
     try:
+        ind = search_table[search_table['name'] == selected_indices[0]].index[0]
         content = search_table.loc[ind, 'content']
         pr_v = float(search_table.loc[ind, 'pr'])
     except IndexError:
