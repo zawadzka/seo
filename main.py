@@ -114,13 +114,14 @@ def main():
     search_table = load()
     search_table
 
-    selected_indices = st.multiselect('Select rows:', search_table.name)
+    selected_indices = st.multiselect('Select rows:', search_table.name,
+                                      default=search_table.name[0])
     # content = search_table.loc[selected_indices[0], 'content']
     # new_content = st.text_area('new content', content)
     selected_indices
 
 
-    st.write(new_content)
+    # st.write(new_content)
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
     # st.dataframe(data.head())
