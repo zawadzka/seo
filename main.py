@@ -96,12 +96,12 @@ def main():
 
         choice = edited_df.loc[edited_df['choice'] == 1, :]
         choice
-        # pr_v = float(choice.loc[0, 'pr'])
+        pr_v = float(choice.loc[0, 'pr'])
         # content = choice.loc[0, 'content']
 
         try:
-            new_content = st.text_area('new content', content)
-            # new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
+            new_content = st.text_area('new content', choice.loc[0, 'content'])
+            new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
 
         except KeyError:
             st.write('Select one row')
