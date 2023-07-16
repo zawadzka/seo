@@ -14,7 +14,8 @@ np_config.enable_numpy_behavior()
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
-service_account_file = f'{files_path}/play-project-328009-019f6ddaa96b.json'
+from sentence_transformers import SentenceTransformer
+
 
 m_handle = 'sentence-transformers/all-MiniLM-L6-v2'
 bq_table = 'seo-project-392909.seo_dataset.data'
@@ -39,71 +40,6 @@ try:
 except FileNotFoundError as err:
     print(f'No keyword set loaded {err}')
     uks = {}
-
-
-class InputData:
-    """
-    The InputData object contains inputs from Streamlit & BQ
-    :param text: Text of description written by editors, scraped and saved in BQ
-    :type text: str
-    :param pr: Page rank value, calculated based on scraped internal links
-    :type pr: float between 0 and 1 with step 0.01
-    :param size: file size, from scraping
-    :type size: int, in KB
-    """
-    keywordSet: list[Any]
-
-    def __init__(self, content: str, name: str, pr: float, size: int,
-                 time: float, sim_num: float = None,
-                 content_length: int = None,
-                 universal_keyword_set: set = uks):
-        self.content = content
-        self.name = name
-        self._pr = pr
-        self.size = size
-        self.sim_sum = sim_num
-        self.keywordSet = [re.sub(r'<plc>', self.name, k) for k in universal_keyword_set]
-        self.time = time
-        self.content_length = content_length
-
-    @property
-    def pr(self):
-        return self._pr
-
-    @pr.setter
-    def pr(self, value):
-        if value not in np.arange(0, 1, .01):
-            raise ValueError("Page rank should be between 0 and 1")
-        else:
-            self._pr = value
-
-    def similarity(self):
-        """
-        It calculates cosine similarity using huggingface bert model
-        and tensorflow function -  equivalent of SentenceTransformer
-        :return: sim_sum: float
-        """
-
-
-class BigQueryImport(InputData):
-    def __init__(self, bq_table_name: str = bq_table) -> object:
-        super().__init__(self)
-
-    def bq_data_import(self, bq_table_name: str = bq_table):
-        s = """
-            SELECT time, sim_sum, full_content, size, pr, content_length
-            FROM {}
-        """
-        sql = s.format(bq_table_name)
-        page = client.query(sql)
-        for row in page:
-            self.time = page.time
-            self.sim_sum = page.sim_sum
-            self.size = page.size
-            self.pr = page.pr
-            self.content = page.full_content
-            self.content_length = page.content_length
-
 
 
 
@@ -138,10 +74,11 @@ class SentenceTransformerTF:
     def moving_window(a: tf.Tensor, overlap: int, window_size: int):
         """
         :param window_size: length of the shape[0] in resulting tensor
-        :param overlap: int length of overlapping 
+        :param overlap: int length of overlapping
         :type a: tf.Tensor to be divided
         """
         a = tnp.reshape(a, (a.shape[1],))
+        print(f'ashape[0]{a.shape[0]}, window size {window_size}, overlap {overlap}')
         if a.shape[0] > 0:
 
             rep = 1 + (a.shape[0] - window_size) // (window_size - overlap)
@@ -174,8 +111,9 @@ class SentenceTransformerTF:
     # BERT start token is added and at the end the SEP token.
     # overlap says how many tokes will be repeated between chunks
     # window_size is set for 128-2, because two places for the CLS and SEP tokens are needed
-    def to_chunks(self, overlap: int = 4, window_size: int = 126, max_len: int = 512):
+    def to_chunks(self, sentence, overlap: int = 4, window_size: int = 126, max_len: int = 512):
         tokens = self.tokenizer(self.sentence, add_special_tokens=False,
                                 truncation=False, return_tensors='tf')
+        print(f"tokens {tokens['input_ids']},\n overlap {overlap}" )
         token_chunks = self.moving_window(tokens['input_ids'], overlap, window_size)
         return token_chunks
