@@ -94,9 +94,9 @@ def main():
                                              'Number_of_Keywords'),
                                    hide_index=True)
 
-        choice = edited_df.loc[edited_df['choice'] == 1, :]
+        edited_df.loc[edited_df['choice'] == 1, :]
         # pr_v = float(choice.loc[0, 'pr'])
-        content = choice.loc[0, 'content']
+        # content = choice.loc[0, 'content']
 
         try:
             new_content = st.text_area('new content', content)
