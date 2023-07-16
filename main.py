@@ -94,8 +94,11 @@ def main():
     # content = search_table.loc[selected_indices[0], 'content']
     # new_content = st.text_area('new content', content)
     selected_indices
-    try:
-        ind = search_table[search_table['name'==selected_indices[0]].index[0]
+    ind = search_table[search_table['name'] == selected_indices[0]].index[0]
+    ind
+    # try:
+        # ind = search_table[search_table['name'==selected_indices[0]].index[0]
+        #
     #     pr_v = search_table.loc[ind, 'pr']
     #     content = edited_df.loc[ind[0][0], 'content']
     # except KeyError:
@@ -103,8 +106,8 @@ def main():
     # try:
     #     new_content = st.text_area('new content', content)
     #     new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
-    except KeyError:
-        pass
+    # except KeyError:
+
     #     new_content = content
     # st.write(new_content)
 
