@@ -69,8 +69,7 @@ def main():
         q1 = q1.strip().lower().replace(r'\s+', '-')
 
         search_table = bq_search_query(q1)
-        search_table['choice'] = pd.Series()
-        search_table.loc[0, 'choice'] = 1
+        search_table['choice'] = pd.Series([x for x in range(len(search_table))])
 
         search_table = search_table.rename(columns={'sim_sum': 'similarity_keywords',
                                                     'full_content': 'content', 'time': 'response_time',
@@ -82,35 +81,38 @@ def main():
         search_table.to_csv('static/search_table.csv')
 
         # st.dataframe(search_table)
-        edited_df = st.data_editor(search_table,
-                                   column_config={
-                                       'content': st.column_config.TextColumn(
-                                           width='large'),
-                                       'choice': st.column_config.CheckboxColumn(
-                                           help='Select for analysis',
-                                       )
-
-                                   },
-                                   disabled=('similarity_keywords',
-                                             'Number_of_Keywords'),
-                                   hide_index=True)
-
-        ind = np.where(edited_df['choice'].to_numpy() == 1)
-        try:
-            pr_v = float(edited_df.loc[ind[0][0], 'pr'])
-            content = edited_df.loc[ind[0][0], 'content']
-        except KeyError:
-            st.write('Select one row')
-        try:
-            new_content = st.text_area('new content', content)
-            new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
-        except KeyError:
-            new_content = content
-        st.write(new_content)
+        # edited_df = st.data_editor(search_table,
+        #                            column_config={
+        #                                'content': st.column_config.TextColumn(
+        #                                    width='large'),
+        #                                'choice': st.column_config.CheckboxColumn(
+        #                                    help='Select for analysis',
+        #                                )
+        #
+        #                            },
+        #                            disabled=('similarity_keywords',
+        #                                      'Number_of_Keywords'),
+        #                            hide_index=True)
+        #
+        # ind = np.where(edited_df['choice'].to_numpy() == 1)
+        # try:
+        #     pr_v = float(edited_df.loc[ind[0][0], 'pr'])
+        #     content = edited_df.loc[ind[0][0], 'content']
+        # except KeyError:
+        #     st.write('Select one row')
+        # try:
+        #     new_content = st.text_area('new content', content)
+        #     new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
+        # except KeyError:
+        #     new_content = content
+        # st.write(new_content)
+        selected_indices = st.multiselect('Select rows:', search_table.index)
+        content = search_table.loc[selected_indices[0], 'content']
+        new_content = st.text_area('new content', content)
 
         st.form_submit_button('Perform')
 
-
+        st.write(new_content)
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
     # st.dataframe(data.head())
