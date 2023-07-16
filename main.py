@@ -86,7 +86,7 @@ def main():
         return search_table
 
     search_table = load()
-    # st.table(search_table)
+    st.dataframe(search_table)
 
     # st.button('rerun')
     selected_indices = st.multiselect('Select rows:', search_table.name,
