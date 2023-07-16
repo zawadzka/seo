@@ -37,7 +37,7 @@ def bq_search_query(search_name, bq_table_name: str = bq_table):
     SELECT name,  full_content, sim_sum, content_length, pr, 
     time, size, Number_of_Keywords 
     FROM {} where url like '%/site/%'
-    and url like {}
+    and url like '%{}%'
     limit 10
     """
     sql = s.format(bq_table_name, search_name)
@@ -48,13 +48,13 @@ def bq_search_query(search_name, bq_table_name: str = bq_table):
 def main():
     # Use a breakpoint in the code line below to debug your script.
 
-    st.write(f'''Data about pages consist of company/product name, \n
-                editorial content written about this company, \n
-                and some descriptive fields - calculated inner page rank, \n
-                semantic similarity to typical coupon \n 
+    st.write(f'''Data about pages consist of company/product name, 
+                editorial content written about this company, 
+                and some descriptive fields - calculated inner page rank, 
+                semantic similarity to typical coupon 
                 and promotion related keywords, 
-                file size, page load speed - response time during crawling, \n
-                and number of keywords the company's coupon page is visible for \n
+                file size, page load speed - response time during crawling, 
+                and number of keywords the company's coupon page is visible for 
                 (based on an external tool).  
                 ''')
     st.write('The table beneath show some example with basic fields')
@@ -65,7 +65,7 @@ def main():
     with st.form('selection'):
         q1 = st.text_input('company name', 'FlixBus')
         q1 = q1.strip().lower().replace(r'\s+', '-')
-        q1 = f'%{q1}%'
+
         sb = st.form_submit_button('Search for coupon page')
         if sb:
             search_table = bq_search_query(q1)
