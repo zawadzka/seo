@@ -83,7 +83,9 @@ def main():
 
         search_table.to_csv('static/search_table.csv')
         return search_table
-        st.button('Run')
+        if st.button('Run'):
+            search_table = load()
+            search_table
         # st.dataframe(search_table)
         # edited_df = st.data_editor(search_table,
         #                            column_config={
@@ -111,8 +113,7 @@ def main():
         #     new_content = content
         # st.write(new_content)
 
-    search_table = load()
-    search_table
+
 
     selected_indices = st.multiselect('Select rows:', search_table.name,
                                       default=search_table.name[0])
