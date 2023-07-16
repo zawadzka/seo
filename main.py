@@ -86,9 +86,9 @@ def main():
         return search_table
 
     search_table = load()
-    st.table(search_table)
+    # st.table(search_table)
 
-    st.button('rerun')
+    # st.button('rerun')
     selected_indices = st.multiselect('Select rows:', search_table.name,
                                       default=search_table.name[0])
     # content = search_table.loc[selected_indices[0], 'content']
