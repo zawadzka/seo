@@ -33,6 +33,7 @@ def bq_base_query(bq_table_name: str = bq_table):
     return data
 
 
+@st.cache_data
 def bq_search_query(search_name, bq_table_name: str = bq_table):
     s = """
     SELECT name,  full_content, sim_sum, content_length, pr, 
@@ -64,14 +65,13 @@ def main():
     st.dataframe(example_table)
 
     st.write('Search for site')
-    q1 = st.text_input('company name', 'FlixBus')
 
-    @st.cache_data
-    def load(q1=q1):
+    def load():
+        q = st.text_input('company name', 'FlixBus')
 
-        q1 = q1.strip().lower().replace(r'\s+', '-')
+        q = q.strip().lower().replace(r'\s+', '-')
 
-        search_table = bq_search_query(q1)
+        search_table = bq_search_query(q)
         search_table['choice'] = pd.Series([x for x in range(len(search_table))])
 
         search_table = search_table.rename(columns={'sim_sum': 'similarity_keywords',
@@ -87,7 +87,7 @@ def main():
 
 
 
-        search_table = load(q1)
+        search_table = load()
         st.table(search_table)
 
         st.button('rerun')
