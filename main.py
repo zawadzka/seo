@@ -94,7 +94,8 @@ def main():
                                              'Number_of_Keywords'),
                                    hide_index=True)
 
-        edited_df.loc[edited_df['choice'] == 1, :]
+        choice = edited_df.loc[edited_df['choice'] == 1, :]
+        choice
         # pr_v = float(choice.loc[0, 'pr'])
         # content = choice.loc[0, 'content']
 
