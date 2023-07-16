@@ -64,6 +64,8 @@ def main():
     st.dataframe(example_table)
 
     st.write('Search for site')
+
+    @st.cache_data()
     with st.form('selection'):
         q1 = st.text_input('company name', 'FlixBus')
         q1 = q1.strip().lower().replace(r'\s+', '-')
@@ -79,6 +81,7 @@ def main():
                                      'Number_of_Keywords']]
 
         search_table.to_csv('static/search_table.csv')
+        st.form_submit_button('Perform')
 
         # st.dataframe(search_table)
         # edited_df = st.data_editor(search_table,
@@ -106,13 +109,13 @@ def main():
         # except KeyError:
         #     new_content = content
         # st.write(new_content)
-        selected_indices = st.multiselect('Select rows:', search_table.index)
-        content = search_table.loc[selected_indices[0], 'content']
-        new_content = st.text_area('new content', content)
+    selected_indices = st.multiselect('Select rows:', search_table.index)
+    content = search_table.loc[selected_indices[0], 'content']
+    new_content = st.text_area('new content', content)
 
-        st.form_submit_button('Perform')
 
-        st.write(new_content)
+
+    st.write(new_content)
     # with open('/static/data_all.dataframe' , 'wb') as f:
     #     data_from_pickle = pickle.load(f)
     # st.dataframe(data.head())
