@@ -64,10 +64,11 @@ def main():
     st.dataframe(example_table)
 
     st.write('Search for site')
+    q1 = st.text_input('company name', 'FlixBus')
 
     @st.cache_data()
-    def load():
-        q1 = st.text_input('company name', 'FlixBus')
+    def load(q1=q1):
+
         q1 = q1.strip().lower().replace(r'\s+', '-')
 
         search_table = bq_search_query(q1)
