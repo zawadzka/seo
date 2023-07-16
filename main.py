@@ -114,7 +114,7 @@ def main():
     search_table = load()
     search_table
 
-    selected_indices = st.multiselect('Select rows:', search_table.index)
+    selected_indices = st.multiselect('Select rows:', search_table.name)
     # content = search_table.loc[selected_indices[0], 'content']
     # new_content = st.text_area('new content', content)
     selected_indices
