@@ -95,8 +95,8 @@ def main():
                                    hide_index=True)
 
         edited_df.loc[edited_df['choice'] == 1, :]
-        pr_v = float(edited_df.loc[0, 'pr'])
-        content = edited_df.loc[0, 'content']
+        pr_v = float(edited_df.loc[edited_df['choice'] == 1, 'pr'])
+        content = edited_df.loc[edited_df['choice'] == 1, 'content']
 
         try:
             new_content = st.text_area('new content', content)
