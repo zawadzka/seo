@@ -61,11 +61,10 @@ def print_hi(name):
         search_table.loc[0, 'choice'] = 1
 
         search_table = search_table.rename(columns={'sim_sum': 'similarity_keywords',
-                                                    'full_content': 'content',
-                                                    'pr': 'page_rank', 'time': 'response_time',
+                                                    'full_content': 'content', 'time': 'response_time',
                                                     'size': 'file_size'})
         search_table = search_table[['choice', 'name', 'content', 'similarity_keywords',
-                                     'page_rank', 'file_size', 'content_length', 'response_time',
+                                     'pr', 'file_size', 'content_length', 'response_time',
                                      'Number_of_Keywords']]
         search_table.to_csv('static/search_table.csv')
     else:
@@ -84,7 +83,7 @@ def print_hi(name):
                                          'Number_of_Keywords'),
                                hide_index=True)
     # st.dataframe(edited_df)
-    pr_v = float(edited_df.loc[0, 'page_rank'])
+    pr_v = float(edited_df.loc[0, 'pr'])
     try:
         new_content = st.text_area('new content', edited_df.loc[0, 'content'])
         new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
