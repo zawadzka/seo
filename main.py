@@ -94,6 +94,19 @@ def main():
     # content = search_table.loc[selected_indices[0], 'content']
     # new_content = st.text_area('new content', content)
     selected_indices
+    try:
+        ind = search_table[search_table['name'==selected_indices[0]].index[0]
+    #     pr_v = search_table.loc[ind, 'pr']
+    #     content = edited_df.loc[ind[0][0], 'content']
+    # except KeyError:
+    #     st.write('Select one row')
+    # try:
+    #     new_content = st.text_area('new content', content)
+    #     new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
+    except KeyError:
+        pass
+    #     new_content = content
+    # st.write(new_content)
 
     # st.dataframe(search_table)
     # edited_df = st.data_editor(search_table,
@@ -110,17 +123,6 @@ def main():
     #                            hide_index=True)
     #
     # ind = np.where(edited_df['choice'].to_numpy() == 1)
-    # try:
-    #     pr_v = float(edited_df.loc[ind[0][0], 'pr'])
-    #     content = edited_df.loc[ind[0][0], 'content']
-    # except KeyError:
-    #     st.write('Select one row')
-    # try:
-    #     new_content = st.text_area('new content', content)
-    #     new_pr = st.slider('page rank', 0.0, 1.0, pr_v)
-    # except KeyError:
-    #     new_content = content
-    # st.write(new_content)
 
     # st.write(new_content)
     # with open('/static/data_all.dataframe' , 'wb') as f:
