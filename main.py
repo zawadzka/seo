@@ -64,10 +64,13 @@ def main():
     example_table = pd.read_csv('static/example.csv')
     st.dataframe(example_table)
 
-    st.write('Search for site')
+    st.header('Search for site')
+    st.write("""Choice a coupon page from the database. 
+    Due to crawling issues not all pages are available.\n
+    If the page, you're looking for, doesn't exist, the last chosen will be visible""")
 
     def load():
-        q = st.text_input('company name', 'FlixBus')
+        q = st.text_input('company name', 'amazon')
 
         q = q.strip().lower().replace(r'\s+', '-')
         try:
