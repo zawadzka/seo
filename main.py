@@ -46,16 +46,21 @@ def main():
     st.title('Organic growth model')
 
     st.header('High intent keywords optimization')
+    st.divider()
+    st.header('Project description')
     st.write(f'''Data about pages consist of company/product name, 
                 editorial content written about this company, 
-                and some descriptive fields - calculated inner page rank, 
-                semantic similarity to typical coupon 
-                and promotion related keywords, 
-                file size, page load speed - response time during crawling, 
+                and some descriptive fields \n
+                - calculated inner page rank, \n
+                - semantic similarity to typical coupon 
+                and promotion related keywords, \n
+                - file size,\n
+                - page load speed - response time during crawling, \n
+                
                 and number of keywords the company's coupon page is visible for 
                 (based on an external tool).  
                 ''')
-    st.write('The table beneath show some example with basic fields')
+    st.header('The table beneath show some example with basic fields')
     example_table = pd.read_csv('static/example.csv')
     st.dataframe(example_table)
 
