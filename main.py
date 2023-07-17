@@ -60,7 +60,7 @@ def main():
                 and number of keywords the company's coupon page is visible for 
                 (based on an external tool).  
                 ''')
-    st.header('The table beneath show some example with basic fields')
+    st.header('Examples with basic fields')
     example_table = pd.read_csv('static/example.csv')
     st.dataframe(example_table)
 
