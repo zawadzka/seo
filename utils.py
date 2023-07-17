@@ -181,7 +181,7 @@ class InputData:
         return np.sum(sims)
 
 
-def make_prediction(x: InputData, ):
+def make_prediction(x: InputData):
     """
     :param x: InputData object
     InputData: class with features as attributes
