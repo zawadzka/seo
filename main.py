@@ -110,8 +110,9 @@ def main():
 
     page = utils.InputData(new_content, name, new_pr, size, time)
     st.write(f'similarity: {page.sim_sum}\n content length: {page.content_length}')
-    y = utils.make_prediction(x)
+    y = utils.make_prediction(page)
     st.write(f'predicted: {y}')
+
 
 if __name__ == '__main__':
     main()
