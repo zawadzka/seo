@@ -120,7 +120,7 @@ def main():
             st.write(f'time: {new_time}\n size: {new_size}')
 
     page = utils.InputData(new_content, name, new_pr, new_size, new_time)
-    st.write(f'similarity: {page.sim_sum}\n content length: {page.content_length}')
+    st.write(f"similarity: {round(page.sim_sum, 4)}\n content length: {page.content_length}")
     y = utils.make_prediction(page)
     st.write(f'predicted: {y}')
     if y > 0.5:
