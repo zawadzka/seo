@@ -200,7 +200,8 @@ def make_prediction(x: InputData):
     model.load_model("static/model.json")
     print(f'ntree limit: {model.best_ntree_limit}')
 
-    data_to_predict = np.array([x.size, x.time, x.content_length, x.sim_sum, x.pr])
+    lx = [x.size, x.time, x.content_length, x.sim_sum, x.pr]
+    data_to_predict = np.expand_dims(lx, axis=0)
     y = model.predict(data_to_predict)
     if y > 0.5:
         print('Good, predicted visibility better than average.')
