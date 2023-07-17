@@ -104,16 +104,22 @@ def main():
     name = search_table.loc[ind, 'name']
     size = search_table.loc[ind, 'file_size']
     time = search_table.loc[ind, 'response_time']
-    new_content = st.text_area('Change text to examine new content', content)
-    new_pr = st.slider('Insert new page rank value', 0.0, 0.01, pr_v, step=0.0001)
-    size_divided = size//10000
-    new_size = st.slider('Insert new page size value - x 10k', 1, int(size_divided), 10, step=1)*10000
-    new_time = st.slider('Insert new page time value', 1.0, 2.0, float(time), step=0.1)
-    st.write(new_pr, new_content)
+
+    with st.form
+        new_content = st.text_area('Change text to examine new content', content)
+        new_pr = st.slider('Insert new page rank value', 0.0, 0.01, pr_v, step=0.0001)
+        size_divided = size//10000
+        new_size = st.slider('Insert new page size value - x 10k', 1, int(size_divided), 10, step=1)*10000
+        new_time = st.slider('Insert new page time value', 1.0, 2.0, float(time), step=0.1)
+
+        st.write(f'New content: {new_content}')
+        st.write(f'New page rank: {new_pr}')
+        st.write(f'similarity: {page.sim_sum}\n content length: {page.content_length}')
+        st.write(f'time: {page.time}\n size: {page.size}')
+
+        st.form_submit_button('Calculate predictions')
 
     page = utils.InputData(new_content, name, new_pr, new_size, new_time)
-    st.write(f'similarity: {page.sim_sum}\n content length: {page.content_length}')
-    st.write(f'time: {page.time}\n size: {page.size}')
     y = utils.make_prediction(page)
     st.write(f'predicted: {y}')
 
