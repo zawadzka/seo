@@ -136,7 +136,7 @@ def main():
     y = utils.make_prediction(page)
     st.write(f'predicted: {y}')
     if y > 0.5:
-        st.write(':sparkles: Good predicted visibility better than average.')
+        st.write(':sparkles: Good:sparkles: predicted visibility better than average.')
     else:
         st.write(':disappointed:, predicted visibility worse than average.')
 
