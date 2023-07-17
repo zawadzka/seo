@@ -43,7 +43,9 @@ def bq_search_query(search_name, bq_table_name: str = bq_table):
 
 def main():
     # Use a breakpoint in the code line below to debug your script.
+    st.title('Organic growth model')
 
+    st.header('High intent keywords optimization')
     st.write(f'''Data about pages consist of company/product name, 
                 editorial content written about this company, 
                 and some descriptive fields - calculated inner page rank, 
