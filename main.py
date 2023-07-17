@@ -1,24 +1,16 @@
-import os.path
-
 import streamlit as st
 import pandas as pd
 import numpy as np
 from google.cloud import bigquery
 from google.oauth2 import service_account
-import pickle
 import utils
 
 credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"])
 # secrets = toml.load('secrets.toml')["gcp_service_account"]
 project_id = 'seo-project-392909'
 secrets = st.secrets["gcp_service_account"]
-# credentials = service_account.Credentials.from_service_account_info(secrets)
-# client = bigquery.Client(credentials=credentials)
 client = bigquery.Client(credentials=credentials, project=project_id)
 bq_table = 'seo-project-392909.seo_dataset.data'
-
-
-# bq_secrets = secrets, bq_client = client,
 
 
 def bq_base_query(bq_table_name: str = bq_table):
@@ -118,7 +110,8 @@ def main():
 
     page = utils.InputData(new_content, name, new_pr, size, time)
     st.write(f'similarity: {page.sim_sum}\n content length: {page.content_length}')
-
+    y = utils.make_prediction(x)
+    st.write(f'predicted: {y}')
 
 if __name__ == '__main__':
     main()

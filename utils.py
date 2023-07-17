@@ -1,4 +1,3 @@
-from typing import Any
 import re
 import pandas as pd
 import numpy as np
@@ -8,14 +7,10 @@ import tensorflow as tf
 import tensorflow.experimental.numpy as tnp
 import sentence_transformers
 from tensorflow.python.ops.numpy_ops import np_config
+from sentence_transformers import SentenceTransformer
+import xgboost as xgb
 
 np_config.enable_numpy_behavior()
-
-from google.cloud import bigquery
-from google.oauth2 import service_account
-
-from sentence_transformers import SentenceTransformer
-
 
 m_handle = 'sentence-transformers/all-MiniLM-L6-v2'
 bq_table = 'seo-project-392909.seo_dataset.data'
@@ -38,7 +33,6 @@ try:
 except FileNotFoundError as err:
     print(f'No keyword set loaded {err}')
     uks = {}
-
 
 
 class SentenceTransformerTF:
@@ -109,7 +103,7 @@ class SentenceTransformerTF:
     # BERT start token is added and at the end the SEP token.
     # overlap says how many tokes will be repeated between chunks
     # window_size is set for 128-2, because two places for the CLS and SEP tokens are needed
-    def to_chunks(self, sentence, overlap: int = 4, window_size: int = 126, max_len: int = 512):
+    def to_chunks(self, sentence, overlap: int = 4, window_size: int = 126):
         tokens = self.tokenizer(self.sentence, add_special_tokens=False,
                                 truncation=False, return_tensors='tf')
         # print(f"tokens {tokens['input_ids']},\n overlap {overlap}" )
@@ -120,8 +114,8 @@ class SentenceTransformerTF:
 class InputData:
     """
     The InputData object contains inputs from Streamlit & BQ
-    :param text: Text of description written by editors, scraped and saved in BQ
-    :type text: str
+    :param content: Text of description written by editors, scraped and saved in BQ
+    :type content: str
     :param pr: Page rank value, calculated based on scraped internal links
     :type pr: float between 0 and 1 with step 0.01
     :param size: file size, from scraping
@@ -136,19 +130,19 @@ class InputData:
         self._pr = pr
         self.time = time
         self.size = size
-        
+
     @property
     def content_length(self):
         return len(self.content)
-    
+
     @property
     def embeddings(self):
         return self.content_embeddings()
-    
+
     @property
     def sim_sum(self):
         return self.similarity()
-    
+
     @property
     def keywordSet(self, universal_keyword_set=universal_keyword_set):
         return [re.sub(r'<plc>', self.name, k) for k in universal_keyword_set]
@@ -187,6 +181,29 @@ class InputData:
         return np.sum(sims)
 
 
+def make_prediction(x: InputData, ):
+    """
+    :param x: InputData object
+    InputData: class with features as attributes
+    features:
+    size: int file size on kb
+    time: float response time
+    content_length: int content legth in chars
+    sim_sum: float semantic similarity
+    pr: float indicator calculated to measure link juice
+    target:
+    n_keywords: int number of keywords tha page is visible for
+    :return: y - predicted value, binary: bool
 
+    """
+    model = xgb.XGBClassifier()
+    model.load_model("static/model.json")
+    print(f'ntree limit: {model.best_ntree_limit}')
 
-
+    data_to_predict = np.array(x.size, x.time, x.content_length, x.sim_sum, x.pr)
+    y = model.predict(data_to_predict)
+    if y > 0.5:
+        print('Good, predicted visibility better than average.')
+    else:
+        print('Alas, predicted visibility worse than average.')
+    return y
