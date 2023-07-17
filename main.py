@@ -65,9 +65,9 @@ def main():
     st.dataframe(example_table)
 
     st.header('Search for site')
-    st.write("""Choice a coupon page from the database. 
+    st.write("""Choose a coupon page from the database. 
     Due to crawling issues not all pages are available.
-    If the page, you're looking for, doesn't exist, the last chosen will be visible""")
+    If the page you're looking for doesn't exist, the last chosen will be visible""")
 
     def load():
         q = st.text_input('company name', 'amazon')
@@ -136,7 +136,7 @@ def main():
     y = utils.make_prediction(page)
     st.write(f'predicted: {y}')
     if y > 0.5:
-        st.write(':sparkles: Good, predicted visibility better than average.')
+        st.write(':sparkles: Good predicted visibility better than average.')
     else:
         st.write(':disappointed:, predicted visibility worse than average.')
 
