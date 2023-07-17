@@ -123,6 +123,10 @@ def main():
     st.write(f'similarity: {page.sim_sum}\n content length: {page.content_length}')
     y = utils.make_prediction(page)
     st.write(f'predicted: {y}')
+    if y > 0.5:
+        st.write(':sparkles: Good, predicted visibility better than average.')
+    else:
+        st.write(':disappointed:, predicted visibility worse than average.')
 
 
 if __name__ == '__main__':

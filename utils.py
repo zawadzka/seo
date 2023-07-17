@@ -203,8 +203,5 @@ def make_prediction(x: InputData):
     lx = [x.size, x.time, x.content_length, x.sim_sum, x.pr]
     data_to_predict = np.expand_dims(lx, axis=0)
     y = model.predict(data_to_predict)
-    if y > 0.5:
-        print('Good, predicted visibility better than average.')
-    else:
-        print('Alas, predicted visibility worse than average.')
+
     return y
