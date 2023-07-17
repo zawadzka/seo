@@ -105,11 +105,14 @@ def main():
     size = search_table.loc[ind, 'file_size']
     time = search_table.loc[ind, 'response_time']
     new_content = st.text_area('Change text to examine new content', content)
-    new_pr = st.slider('Insert new page rank value', 0.0, 1.0, pr_v, step=0.01)
+    new_pr = st.slider('Insert new page rank value', 0.0, 0.01, pr_v, step=0.0001)
+    new_size = st.slider('Insert new page size value', 1, 300000, size, step=10000)
+    new_time = st.slider('Insert new page time value', 1, 2, time, step=0.1)
     st.write(new_pr, new_content)
 
-    page = utils.InputData(new_content, name, new_pr, size, time)
+    page = utils.InputData(new_content, name, new_pr, new_size, new_time)
     st.write(f'similarity: {page.sim_sum}\n content length: {page.content_length}')
+    st.write(f'time: {page.time}\n size: {page.size}')
     y = utils.make_prediction(page)
     st.write(f'predicted: {y}')
 
