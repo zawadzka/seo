@@ -106,7 +106,8 @@ def main():
     time = search_table.loc[ind, 'response_time']
     new_content = st.text_area('Change text to examine new content', content)
     new_pr = st.slider('Insert new page rank value', 0.0, 0.01, pr_v, step=0.0001)
-    new_size = st.slider('Insert new page size value - x 10k', 1, 30, size/10000, step=1)*10000
+    size_divided = size//10000
+    new_size = st.slider('Insert new page size value - x 10k', 1, 30, size_divided, step=1)*10000
     new_time = st.slider('Insert new page time value', 1.0, 2.0, time, step=0.1)
     st.write(new_pr, new_content)
 
