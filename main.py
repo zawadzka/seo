@@ -105,7 +105,7 @@ def main():
     size = search_table.loc[ind, 'file_size']
     time = search_table.loc[ind, 'response_time']
 
-    with st.form:
+    with st.form("Try new values!"):
         new_content = st.text_area('Change text to examine new content', content)
         new_pr = st.slider('Insert new page rank value', 0.0, 0.01, pr_v, step=0.0001)
         size_divided = size//10000
