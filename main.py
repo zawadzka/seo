@@ -66,7 +66,7 @@ def main():
 
     st.header('Search for site')
     st.write("""Choice a coupon page from the database. 
-    Due to crawling issues not all pages are available.\n
+    Due to crawling issues not all pages are available.
     If the page, you're looking for, doesn't exist, the last chosen will be visible""")
 
     def load():
@@ -116,7 +116,8 @@ def main():
     time = search_table.loc[ind, 'response_time']
 
     with st.form("Try new values!"):
-        new_content = st.text_area('Change text to examine new content', content)
+        new_content = st.text_area('Play with features: change the content, '
+                                   'set the new response time or Page rank', content)
         new_pr = st.slider('Insert new page rank value', 0.0, 0.01, pr_v, step=0.0001)
         size_divided = size//10000
         new_size = st.slider('Insert new page size value - x 10k', 1, int(size_divided), 10, step=1)*10000
